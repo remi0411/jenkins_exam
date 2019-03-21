@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   web:
-    image: nginx:1.12
+    build: ./docker/nginx
     ports:
         - "8080:80"
     volumes:
@@ -11,9 +11,7 @@ services:
     links:
         - php
   php:
-    build: .
-    volumes:
-      - .:/code
+    build: ./docker/php
     links:
         - db
 
