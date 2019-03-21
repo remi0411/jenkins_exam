@@ -4,3 +4,4 @@ RUN docker-php-ext-install gd
 RUN docker-php-ext-install mysqli 
 RUN docker-php-ext-enable mysqli
 COPY . /code
+RUN ls

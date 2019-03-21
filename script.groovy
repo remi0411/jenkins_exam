@@ -1,5 +1,0 @@
-#!groovy
-
-step{
-    shell('ls')
-}

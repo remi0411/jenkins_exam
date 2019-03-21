@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   web:
-    build: ./docker/nginx
+    image: nginx:1.12
     ports:
         - "8080:80"
     volumes:
@@ -11,16 +11,25 @@ services:
     links:
         - php
   php:
-    build: ./docker/php
+    build: .
+    volumes:
+      - .:/code
     links:
+        - db
+    depends_on:
         - db
 
   db:
     image: mariadb:10.1
+    container_name: db
     volumes: 
+      - ./config:/etc/mysql/conf.d
       - ./db:/var/lib/mysql
+    user: "1000:50"
     environment:
       - MYSQL_USER=php_user
       - MYSQL_PASSWORD=sdrugntqqsciur
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=db
+    command:
+      mysqld --innodb-flush-method=littlesync --innodb-use-native-aio=OFF --log_bin=ON
